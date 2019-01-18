@@ -41,7 +41,43 @@ class _CardColumnState extends State<CardColumn> {
           );
         },
         onWillAccept: (value) {
-          //TODO: Add accept logic
+          // If empty, accept
+          if (widget.cards.length == 0) {
+            return true;
+          }
+
+          // Get dragged cards list
+          List<PlayingCard> draggedCards = value["cards"];
+          PlayingCard firstCard = draggedCards.first;
+          print(widget.cards.last.cardType);
+          print(widget.cards.last.cardSuit);
+          print(firstCard.cardType);
+          print(firstCard.cardSuit);
+          if (firstCard.cardColor == CardColor.red) {
+            if (widget.cards.last.cardColor == CardColor.red) {
+              return false;
+            }
+
+            int lastColumnCardIndex = CardType.values.indexOf(widget.cards.last.cardType);
+            int firstDraggedCardIndex = CardType.values.indexOf(firstCard.cardType);
+
+            if(lastColumnCardIndex != firstDraggedCardIndex + 1) {
+              return false;
+            }
+
+          } else {
+            if (widget.cards.last.cardColor == CardColor.black) {
+              return false;
+            }
+
+            int lastColumnCardIndex = CardType.values.indexOf(widget.cards.last.cardType);
+            int firstDraggedCardIndex = CardType.values.indexOf(firstCard.cardType);
+
+            if(lastColumnCardIndex != firstDraggedCardIndex + 1) {
+              return false;
+            }
+
+          }
           return true;
         },
         onAccept: (value) {

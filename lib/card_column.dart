@@ -33,6 +33,7 @@ class _CardColumnState extends State<CardColumn> {
                 playingCard: card,
                 transformIndex: index,
                 attachedCards: widget.cards.sublist(index, widget.cards.length),
+                columnIndex: widget.columnIndex,
               );
             }).toList(),
           );
@@ -42,7 +43,10 @@ class _CardColumnState extends State<CardColumn> {
           return true;
         },
         onAccept: (value) {
-          widget.onCardsAdded(value["cards"], value["fromIndex"]);
+          widget.onCardsAdded(
+            value["cards"],
+            value["fromIndex"],
+          );
         },
       ),
     );

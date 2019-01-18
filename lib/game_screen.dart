@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:solitaire_flutter/card_column.dart';
 import 'package:solitaire_flutter/playing_card.dart';
-import 'package:solitaire_flutter/transformed_card.dart';
 
 class GameScreen extends StatefulWidget {
   @override
@@ -56,21 +55,26 @@ class _GameScreenState extends State<GameScreen> {
 
       if (i == 0) {
         PlayingCard card = allCards[randomNumber];
-        cardColumn1.add(PlayingCard(
-          cardType: card.cardType,
-          cardSuit: card.cardSuit,
-          faceUp: true,
-          opened: true,
-        ));
+        cardColumn1.add(
+          PlayingCard(
+            cardType: card.cardType,
+            cardSuit: card.cardSuit,
+            faceUp: true,
+            opened: true,
+          ),
+        );
         allCards.removeAt(randomNumber);
       } else if (i > 0 && i < 3) {
         if (i == 2) {
           PlayingCard card = allCards[randomNumber];
-          cardColumn2.add(PlayingCard(
+          cardColumn2.add(
+            PlayingCard(
               cardType: card.cardType,
               cardSuit: card.cardSuit,
               opened: true,
-              faceUp: true));
+              faceUp: true,
+            ),
+          );
         } else {
           cardColumn2.add(allCards[randomNumber]);
         }
@@ -78,11 +82,14 @@ class _GameScreenState extends State<GameScreen> {
       } else if (i > 2 && i < 6) {
         if (i == 5) {
           PlayingCard card = allCards[randomNumber];
-          cardColumn3.add(PlayingCard(
+          cardColumn3.add(
+            PlayingCard(
               cardType: card.cardType,
               cardSuit: card.cardSuit,
               opened: true,
-              faceUp: true));
+              faceUp: true,
+            ),
+          );
         } else {
           cardColumn3.add(allCards[randomNumber]);
         }
@@ -90,11 +97,14 @@ class _GameScreenState extends State<GameScreen> {
       } else if (i > 5 && i < 10) {
         if (i == 9) {
           PlayingCard card = allCards[randomNumber];
-          cardColumn4.add(PlayingCard(
+          cardColumn4.add(
+            PlayingCard(
               cardType: card.cardType,
               cardSuit: card.cardSuit,
               opened: true,
-              faceUp: true));
+              faceUp: true,
+            ),
+          );
         } else {
           cardColumn4.add(allCards[randomNumber]);
         }
@@ -102,11 +112,14 @@ class _GameScreenState extends State<GameScreen> {
       } else if (i > 9 && i < 15) {
         if (i == 14) {
           PlayingCard card = allCards[randomNumber];
-          cardColumn5.add(PlayingCard(
+          cardColumn5.add(
+            PlayingCard(
               cardType: card.cardType,
               cardSuit: card.cardSuit,
               opened: true,
-              faceUp: true));
+              faceUp: true,
+            ),
+          );
         } else {
           cardColumn5.add(allCards[randomNumber]);
         }
@@ -114,11 +127,14 @@ class _GameScreenState extends State<GameScreen> {
       } else if (i > 14 && i < 21) {
         if (i == 20) {
           PlayingCard card = allCards[randomNumber];
-          cardColumn6.add(PlayingCard(
+          cardColumn6.add(
+            PlayingCard(
               cardType: card.cardType,
               cardSuit: card.cardSuit,
               opened: true,
-              faceUp: true));
+              faceUp: true,
+            ),
+          );
         } else {
           cardColumn6.add(allCards[randomNumber]);
         }
@@ -126,11 +142,14 @@ class _GameScreenState extends State<GameScreen> {
       } else {
         if (i == 27) {
           PlayingCard card = allCards[randomNumber];
-          cardColumn7.add(PlayingCard(
+          cardColumn7.add(
+            PlayingCard(
               cardType: card.cardType,
               cardSuit: card.cardSuit,
               opened: true,
-              faceUp: true));
+              faceUp: true,
+            ),
+          );
         } else {
           cardColumn7.add(allCards[randomNumber]);
         }
@@ -161,49 +180,105 @@ class _GameScreenState extends State<GameScreen> {
               Expanded(
                 child: CardColumn(
                   cards: cardColumn1,
-                  onCardsAdded: (card, index) {},
+                  onCardsAdded: (cards, index) {
+                    setState(() {
+                      cardColumn1.addAll(cards);
+                      int length = _getListFromIndex(index).length;
+                      _getListFromIndex(index)
+                          .removeRange(length - cards.length, length);
+                      _refreshList(index);
+                    });
+                  },
                   columnIndex: 1,
                 ),
               ),
               Expanded(
                 child: CardColumn(
                   cards: cardColumn2,
-                  onCardsAdded: (card, index) {},
+                  onCardsAdded: (cards, index) {
+                    setState(() {
+                      cardColumn2.addAll(cards);
+                      int length = _getListFromIndex(index).length;
+                      _getListFromIndex(index)
+                          .removeRange(length - cards.length, length);
+                      _refreshList(index);
+                    });
+                  },
                   columnIndex: 2,
                 ),
               ),
               Expanded(
                 child: CardColumn(
                   cards: cardColumn3,
-                  onCardsAdded: (card, index) {},
+                  onCardsAdded: (cards, index) {
+                    setState(() {
+                      cardColumn3.addAll(cards);
+                      int length = _getListFromIndex(index).length;
+                      _getListFromIndex(index)
+                          .removeRange(length - cards.length, length);
+                      _refreshList(index);
+                    });
+                  },
                   columnIndex: 3,
                 ),
               ),
               Expanded(
                 child: CardColumn(
                   cards: cardColumn4,
-                  onCardsAdded: (card, index) {},
+                  onCardsAdded: (cards, index) {
+                    setState(() {
+                      cardColumn4.addAll(cards);
+                      int length = _getListFromIndex(index).length;
+                      _getListFromIndex(index)
+                          .removeRange(length - cards.length, length);
+                      _refreshList(index);
+                    });
+                  },
                   columnIndex: 4,
                 ),
               ),
               Expanded(
                 child: CardColumn(
                   cards: cardColumn5,
-                  onCardsAdded: (card, index) {},
+                  onCardsAdded: (cards, index) {
+                    setState(() {
+                      cardColumn5.addAll(cards);
+                      int length = _getListFromIndex(index).length;
+                      _getListFromIndex(index)
+                          .removeRange(length - cards.length, length);
+                      _refreshList(index);
+                    });
+                  },
                   columnIndex: 5,
                 ),
               ),
               Expanded(
                 child: CardColumn(
                   cards: cardColumn6,
-                  onCardsAdded: (card, index) {},
+                  onCardsAdded: (cards, index) {
+                    setState(() {
+                      cardColumn6.addAll(cards);
+                      int length = _getListFromIndex(index).length;
+                      _getListFromIndex(index)
+                          .removeRange(length - cards.length, length);
+                      _refreshList(index);
+                    });
+                  },
                   columnIndex: 6,
                 ),
               ),
               Expanded(
                 child: CardColumn(
                   cards: cardColumn7,
-                  onCardsAdded: (card, index) {},
+                  onCardsAdded: (cards, index) {
+                    setState(() {
+                      cardColumn7.addAll(cards);
+                      int length = _getListFromIndex(index).length;
+                      _getListFromIndex(index)
+                          .removeRange(length - cards.length, length);
+                      _refreshList(index);
+                    });
+                  },
                   columnIndex: 7,
                 ),
               ),
@@ -212,5 +287,34 @@ class _GameScreenState extends State<GameScreen> {
         ],
       ),
     );
+  }
+
+  void _refreshList(int index) {
+    setState(() {
+      _getListFromIndex(index)[_getListFromIndex(index).length - 1]
+        ..opened = true
+        ..faceUp = true;
+    });
+  }
+
+  List<PlayingCard> _getListFromIndex(int index) {
+    switch (index) {
+      case 1:
+        return cardColumn1;
+      case 2:
+        return cardColumn2;
+      case 3:
+        return cardColumn3;
+      case 4:
+        return cardColumn4;
+      case 5:
+        return cardColumn5;
+      case 6:
+        return cardColumn6;
+      case 7:
+        return cardColumn7;
+      default:
+        return null;
+    }
   }
 }

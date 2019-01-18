@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:solitaire_flutter/card_column.dart';
 import 'package:solitaire_flutter/playing_card.dart';
@@ -10,16 +12,7 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   // Stores the cards on the seven columns
-  List<PlayingCard> cardColumn1 = [
-    PlayingCard(
-        cardSuit: CardSuit.hearts, cardType: CardType.eight, faceUp: true),
-    PlayingCard(cardSuit: CardSuit.hearts, cardType: CardType.king),
-    PlayingCard(cardSuit: CardSuit.hearts, cardType: CardType.seven),
-    PlayingCard(cardSuit: CardSuit.diamonds, cardType: CardType.eight),
-    PlayingCard(cardSuit: CardSuit.spades, cardType: CardType.eight),
-    PlayingCard(
-        cardSuit: CardSuit.clubs, cardType: CardType.eight, faceUp: true),
-  ];
+  List<PlayingCard> cardColumn1 = [];
   List<PlayingCard> cardColumn2 = [];
   List<PlayingCard> cardColumn3 = [];
   List<PlayingCard> cardColumn4 = [];
@@ -38,6 +31,120 @@ class _GameScreenState extends State<GameScreen> {
   List<PlayingCard> finalClubsDeck = [];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    List<PlayingCard> allCards = [];
+
+    // Add all cards to deck
+    CardSuit.values.forEach((suit) {
+      CardType.values.forEach((type) {
+        allCards.add(PlayingCard(
+          cardType: type,
+          cardSuit: suit,
+          faceUp: false,
+        ));
+      });
+    });
+
+    Random random = Random();
+
+    // Add cards to columns and remaining to deck
+    for (int i = 0; i < 28; i++) {
+      int randomNumber = random.nextInt(allCards.length);
+
+      if (i == 0) {
+        PlayingCard card = allCards[randomNumber];
+        cardColumn1.add(PlayingCard(
+          cardType: card.cardType,
+          cardSuit: card.cardSuit,
+          faceUp: true,
+          opened: true,
+        ));
+        allCards.removeAt(randomNumber);
+      } else if (i > 0 && i < 3) {
+        if (i == 2) {
+          PlayingCard card = allCards[randomNumber];
+          cardColumn2.add(PlayingCard(
+              cardType: card.cardType,
+              cardSuit: card.cardSuit,
+              opened: true,
+              faceUp: true));
+        } else {
+          cardColumn2.add(allCards[randomNumber]);
+        }
+        allCards.removeAt(randomNumber);
+      } else if (i > 2 && i < 6) {
+        if (i == 5) {
+          PlayingCard card = allCards[randomNumber];
+          cardColumn3.add(PlayingCard(
+              cardType: card.cardType,
+              cardSuit: card.cardSuit,
+              opened: true,
+              faceUp: true));
+        } else {
+          cardColumn3.add(allCards[randomNumber]);
+        }
+        allCards.removeAt(randomNumber);
+      } else if (i > 5 && i < 10) {
+        if (i == 9) {
+          PlayingCard card = allCards[randomNumber];
+          cardColumn4.add(PlayingCard(
+              cardType: card.cardType,
+              cardSuit: card.cardSuit,
+              opened: true,
+              faceUp: true));
+        } else {
+          cardColumn4.add(allCards[randomNumber]);
+        }
+        allCards.removeAt(randomNumber);
+      } else if (i > 9 && i < 15) {
+        if (i == 14) {
+          PlayingCard card = allCards[randomNumber];
+          cardColumn5.add(PlayingCard(
+              cardType: card.cardType,
+              cardSuit: card.cardSuit,
+              opened: true,
+              faceUp: true));
+        } else {
+          cardColumn5.add(allCards[randomNumber]);
+        }
+        allCards.removeAt(randomNumber);
+      } else if (i > 14 && i < 21) {
+        if (i == 20) {
+          PlayingCard card = allCards[randomNumber];
+          cardColumn6.add(PlayingCard(
+              cardType: card.cardType,
+              cardSuit: card.cardSuit,
+              opened: true,
+              faceUp: true));
+        } else {
+          cardColumn6.add(allCards[randomNumber]);
+        }
+        allCards.removeAt(randomNumber);
+      } else {
+        if (i == 27) {
+          PlayingCard card = allCards[randomNumber];
+          cardColumn7.add(PlayingCard(
+              cardType: card.cardType,
+              cardSuit: card.cardSuit,
+              opened: true,
+              faceUp: true));
+        } else {
+          cardColumn7.add(allCards[randomNumber]);
+        }
+        allCards.removeAt(randomNumber);
+      }
+    }
+
+    cardDeckClosed = allCards;
+    cardDeckOpened.add(cardDeckClosed.removeLast());
+
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green,
@@ -46,15 +153,61 @@ class _GameScreenState extends State<GameScreen> {
         elevation: 0.0,
         backgroundColor: Colors.green,
       ),
-      body: Row(
+      body: Column(
         children: <Widget>[
-          Expanded(
-            child: CardColumn(cards: [
-              PlayingCard(cardSuit: CardSuit.hearts, cardType: CardType.eight, faceUp: true),
-              PlayingCard(cardSuit: CardSuit.diamonds, cardType: CardType.eight, faceUp: true),
-              PlayingCard(cardSuit: CardSuit.hearts, cardType: CardType.king, faceUp: true),
-              PlayingCard(cardSuit: CardSuit.spades, cardType: CardType.four, faceUp: true)
-            ], onCardAdded: (card, index){}, columnIndex: 1),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Expanded(
+                child: CardColumn(
+                  cards: cardColumn1,
+                  onCardsAdded: (card, index) {},
+                  columnIndex: 1,
+                ),
+              ),
+              Expanded(
+                child: CardColumn(
+                  cards: cardColumn2,
+                  onCardsAdded: (card, index) {},
+                  columnIndex: 2,
+                ),
+              ),
+              Expanded(
+                child: CardColumn(
+                  cards: cardColumn3,
+                  onCardsAdded: (card, index) {},
+                  columnIndex: 3,
+                ),
+              ),
+              Expanded(
+                child: CardColumn(
+                  cards: cardColumn4,
+                  onCardsAdded: (card, index) {},
+                  columnIndex: 4,
+                ),
+              ),
+              Expanded(
+                child: CardColumn(
+                  cards: cardColumn5,
+                  onCardsAdded: (card, index) {},
+                  columnIndex: 5,
+                ),
+              ),
+              Expanded(
+                child: CardColumn(
+                  cards: cardColumn6,
+                  onCardsAdded: (card, index) {},
+                  columnIndex: 6,
+                ),
+              ),
+              Expanded(
+                child: CardColumn(
+                  cards: cardColumn7,
+                  onCardsAdded: (card, index) {},
+                  columnIndex: 7,
+                ),
+              ),
+            ],
           ),
         ],
       ),

@@ -24,12 +24,15 @@ enum CardType {
 }
 
 class PlayingCard {
-
   CardSuit cardSuit;
   CardType cardType;
   bool faceUp;
   bool opened;
 
-  PlayingCard({@required this.cardSuit,@required this.cardType, this.faceUp = false, this.opened = false});
-
+  PlayingCard({
+    @required this.cardSuit,
+    @required this.cardType,
+    this.faceUp = false,
+    this.opened = false,
+  });
 }

@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:solitaire_flutter/card_column.dart';
 import 'package:solitaire_flutter/playing_card.dart';
 
 class TransformedCard extends StatefulWidget {
   final PlayingCard playingCard;
   final double transformDistance;
   final int transformIndex;
+  final int columnIndex;
+  final List<PlayingCard> attachedCards;
 
-  TransformedCard(
-      {@required this.playingCard,
-      this.transformDistance = 15.0,
-      this.transformIndex = 0});
+  TransformedCard({
+    @required this.playingCard,
+    this.transformDistance = 15.0,
+    this.transformIndex = 0,
+    this.columnIndex,
+    this.attachedCards,
+  });
 
   @override
   _TransformedCardState createState() => _TransformedCardState();
@@ -20,7 +26,11 @@ class _TransformedCardState extends State<TransformedCard> {
   Widget build(BuildContext context) {
     return Transform(
       transform: Matrix4.identity()
-        ..translate(0.0, widget.transformIndex * widget.transformDistance, 0.0),
+        ..translate(
+          0.0,
+          widget.transformIndex * widget.transformDistance,
+          0.0,
+        ),
       child: _buildCard(),
     );
   }
@@ -36,12 +46,20 @@ class _TransformedCardState extends State<TransformedCard> {
               borderRadius: BorderRadius.circular(8.0),
             ),
           )
-        : Draggable(
+        : Draggable<Map>(
             child: _buildFaceUpCard(),
-            feedback: _buildFaceUpCard(),
+            feedback: CardColumn(
+              cards: widget.attachedCards,
+              columnIndex: 1,
+              onCardsAdded: (card, position) {},
+            ),
             childWhenDragging: Container(
               width: 40.0,
             ),
+            data: {
+              "cards": widget.attachedCards,
+              "fromIndex": widget.columnIndex,
+            },
           );
   }
 

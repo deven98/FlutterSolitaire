@@ -291,9 +291,11 @@ class _GameScreenState extends State<GameScreen> {
 
   void _refreshList(int index) {
     setState(() {
-      _getListFromIndex(index)[_getListFromIndex(index).length - 1]
-        ..opened = true
-        ..faceUp = true;
+      if (_getListFromIndex(index).length != 0) {
+        _getListFromIndex(index)[_getListFromIndex(index).length - 1]
+          ..opened = true
+          ..faceUp = true;
+      }
     });
   }
 

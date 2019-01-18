@@ -35,117 +35,7 @@ class _GameScreenState extends State<GameScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    List<PlayingCard> allCards = [];
-
-    // Add all cards to deck
-    CardSuit.values.forEach((suit) {
-      CardType.values.forEach((type) {
-        allCards.add(PlayingCard(
-          cardType: type,
-          cardSuit: suit,
-          faceUp: false,
-        ));
-      });
-    });
-
-    Random random = Random();
-
-    // Add cards to columns and remaining to deck
-    for (int i = 0; i < 28; i++) {
-      int randomNumber = random.nextInt(allCards.length);
-
-      if (i == 0) {
-        PlayingCard card = allCards[randomNumber];
-        cardColumn1.add(
-          card
-            ..opened = true
-            ..faceUp = true,
-        );
-        allCards.removeAt(randomNumber);
-      } else if (i > 0 && i < 3) {
-        if (i == 2) {
-          PlayingCard card = allCards[randomNumber];
-          cardColumn2.add(
-            card
-              ..opened = true
-              ..faceUp = true,
-          );
-        } else {
-          cardColumn2.add(allCards[randomNumber]);
-        }
-        allCards.removeAt(randomNumber);
-      } else if (i > 2 && i < 6) {
-        if (i == 5) {
-          PlayingCard card = allCards[randomNumber];
-          cardColumn3.add(
-            card
-              ..opened = true
-              ..faceUp = true,
-          );
-        } else {
-          cardColumn3.add(allCards[randomNumber]);
-        }
-        allCards.removeAt(randomNumber);
-      } else if (i > 5 && i < 10) {
-        if (i == 9) {
-          PlayingCard card = allCards[randomNumber];
-          cardColumn4.add(
-            card
-              ..opened = true
-              ..faceUp = true,
-          );
-        } else {
-          cardColumn4.add(allCards[randomNumber]);
-        }
-        allCards.removeAt(randomNumber);
-      } else if (i > 9 && i < 15) {
-        if (i == 14) {
-          PlayingCard card = allCards[randomNumber];
-          cardColumn5.add(
-            card
-              ..opened = true
-              ..faceUp = true,
-          );
-        } else {
-          cardColumn5.add(allCards[randomNumber]);
-        }
-        allCards.removeAt(randomNumber);
-      } else if (i > 14 && i < 21) {
-        if (i == 20) {
-          PlayingCard card = allCards[randomNumber];
-          cardColumn6.add(
-            card
-              ..opened = true
-              ..faceUp = true,
-          );
-        } else {
-          cardColumn6.add(allCards[randomNumber]);
-        }
-        allCards.removeAt(randomNumber);
-      } else {
-        if (i == 27) {
-          PlayingCard card = allCards[randomNumber];
-          cardColumn7.add(
-            card
-              ..opened = true
-              ..faceUp = true,
-          );
-        } else {
-          cardColumn7.add(allCards[randomNumber]);
-        }
-        allCards.removeAt(randomNumber);
-      }
-    }
-
-    cardDeckClosed = allCards;
-    cardDeckOpened.add(
-      cardDeckClosed.removeLast()
-        ..opened = true
-        ..faceUp = true,
-    );
-
-    setState(() {});
+    _initialiseGame();
   }
 
   @override
@@ -156,6 +46,21 @@ class _GameScreenState extends State<GameScreen> {
         title: Text("Flutter Solitaire"),
         elevation: 0.0,
         backgroundColor: Colors.green,
+        actions: <Widget>[
+          InkWell(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
+            ),
+            splashColor: Colors.white,
+            onTap: () {
+              _initialiseGame();
+            },
+          )
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -166,7 +71,9 @@ class _GameScreenState extends State<GameScreen> {
               _buildFinalDecks(),
             ],
           ),
-          SizedBox(height: 16.0,),
+          SizedBox(
+            height: 16.0,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -286,17 +193,57 @@ class _GameScreenState extends State<GameScreen> {
     return Container(
       child: Row(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: TransformedCard(
-              playingCard: cardDeckClosed.last,
-            ),
+          InkWell(
+            child: cardDeckClosed.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: TransformedCard(
+                      playingCard: cardDeckClosed.last,
+                    ),
+                  )
+                : Opacity(
+                    opacity: 0.4,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: TransformedCard(
+                        playingCard: PlayingCard(
+                          cardSuit: CardSuit.diamonds,
+                          cardType: CardType.five,
+                        ),
+                      ),
+                    ),
+                  ),
+            onTap: () {
+              setState(() {
+                if (cardDeckClosed.isEmpty) {
+                  cardDeckClosed.addAll(cardDeckOpened.map((card) {
+                    return card
+                      ..opened = false
+                      ..faceUp = false;
+                  }));
+                  cardDeckOpened.clear();
+                } else {
+                  cardDeckOpened.add(
+                    cardDeckClosed.removeLast()
+                      ..faceUp = true
+                      ..opened = true,
+                  );
+                }
+              });
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: TransformedCard(
-              playingCard: cardDeckOpened.last,
-            ),
+          cardDeckOpened.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: TransformedCard(
+                    playingCard: cardDeckOpened.last,
+                    attachedCards: [
+                      cardDeckOpened.last,
+                    ],
+                  ),
+                )
+              : Container(
+            width: 40.0,
           ),
         ],
       ),
@@ -334,6 +281,137 @@ class _GameScreenState extends State<GameScreen> {
         ],
       ),
     );
+  }
+
+  void _initialiseGame() {
+    cardColumn1 = [];
+    cardColumn2 = [];
+    cardColumn3 = [];
+    cardColumn4 = [];
+    cardColumn5 = [];
+    cardColumn6 = [];
+    cardColumn7 = [];
+
+    // Stores the card deck
+    cardDeckClosed = [];
+    cardDeckOpened = [];
+
+    // Stores the card in the upper boxes
+    finalHeartsDeck = [];
+    finalDiamondsDeck = [];
+    finalSpadesDeck = [];
+    finalClubsDeck = [];
+
+    List<PlayingCard> allCards = [];
+
+    // Add all cards to deck
+    CardSuit.values.forEach((suit) {
+      CardType.values.forEach((type) {
+        allCards.add(PlayingCard(
+          cardType: type,
+          cardSuit: suit,
+          faceUp: false,
+        ));
+      });
+    });
+
+    Random random = Random();
+
+    // Add cards to columns and remaining to deck
+    for (int i = 0; i < 28; i++) {
+      int randomNumber = random.nextInt(allCards.length);
+
+      if (i == 0) {
+        PlayingCard card = allCards[randomNumber];
+        cardColumn1.add(
+          card
+            ..opened = true
+            ..faceUp = true,
+        );
+        allCards.removeAt(randomNumber);
+      } else if (i > 0 && i < 3) {
+        if (i == 2) {
+          PlayingCard card = allCards[randomNumber];
+          cardColumn2.add(
+            card
+              ..opened = true
+              ..faceUp = true,
+          );
+        } else {
+          cardColumn2.add(allCards[randomNumber]);
+        }
+        allCards.removeAt(randomNumber);
+      } else if (i > 2 && i < 6) {
+        if (i == 5) {
+          PlayingCard card = allCards[randomNumber];
+          cardColumn3.add(
+            card
+              ..opened = true
+              ..faceUp = true,
+          );
+        } else {
+          cardColumn3.add(allCards[randomNumber]);
+        }
+        allCards.removeAt(randomNumber);
+      } else if (i > 5 && i < 10) {
+        if (i == 9) {
+          PlayingCard card = allCards[randomNumber];
+          cardColumn4.add(
+            card
+              ..opened = true
+              ..faceUp = true,
+          );
+        } else {
+          cardColumn4.add(allCards[randomNumber]);
+        }
+        allCards.removeAt(randomNumber);
+      } else if (i > 9 && i < 15) {
+        if (i == 14) {
+          PlayingCard card = allCards[randomNumber];
+          cardColumn5.add(
+            card
+              ..opened = true
+              ..faceUp = true,
+          );
+        } else {
+          cardColumn5.add(allCards[randomNumber]);
+        }
+        allCards.removeAt(randomNumber);
+      } else if (i > 14 && i < 21) {
+        if (i == 20) {
+          PlayingCard card = allCards[randomNumber];
+          cardColumn6.add(
+            card
+              ..opened = true
+              ..faceUp = true,
+          );
+        } else {
+          cardColumn6.add(allCards[randomNumber]);
+        }
+        allCards.removeAt(randomNumber);
+      } else {
+        if (i == 27) {
+          PlayingCard card = allCards[randomNumber];
+          cardColumn7.add(
+            card
+              ..opened = true
+              ..faceUp = true,
+          );
+        } else {
+          cardColumn7.add(allCards[randomNumber]);
+        }
+        allCards.removeAt(randomNumber);
+      }
+    }
+
+    cardDeckClosed = allCards;
+    cardDeckOpened.add(
+      cardDeckClosed.removeLast()
+        ..opened = true
+        ..faceUp = true,
+    );
+
+    setState(() {});
   }
 
   void _refreshList(int index) {

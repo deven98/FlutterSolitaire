@@ -49,10 +49,6 @@ class _CardColumnState extends State<CardColumn> {
           // Get dragged cards list
           List<PlayingCard> draggedCards = value["cards"];
           PlayingCard firstCard = draggedCards.first;
-          print(widget.cards.last.cardType);
-          print(widget.cards.last.cardSuit);
-          print(firstCard.cardType);
-          print(firstCard.cardSuit);
           if (firstCard.cardColor == CardColor.red) {
             if (widget.cards.last.cardColor == CardColor.red) {
               return false;

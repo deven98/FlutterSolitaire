@@ -36,34 +36,47 @@ class _TransformedCardState extends State<TransformedCard> {
               borderRadius: BorderRadius.circular(8.0),
             ),
           )
-        : Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              color: Colors.white,
-              border: Border.all(color: Colors.black),
-            ),
-            height: 60.0,
-            width: 40,
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Center(
-                    child: Text(
-                      _cardTypeToString(),
-                      style: TextStyle(
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 20.0,
-                    child: _suitToImage(),
-                  )
-                ],
-              ),
+        : Draggable(
+            child: _buildFaceUpCard(),
+            feedback: _buildFaceUpCard(),
+            childWhenDragging: Container(
+              width: 40.0,
             ),
           );
+  }
+
+  Widget _buildFaceUpCard() {
+    return Material(
+      color: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          color: Colors.white,
+          border: Border.all(color: Colors.black),
+        ),
+        height: 60.0,
+        width: 40,
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Center(
+                child: Text(
+                  _cardTypeToString(),
+                  style: TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+              Container(
+                height: 20.0,
+                child: _suitToImage(),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   String _cardTypeToString() {
@@ -113,5 +126,4 @@ class _TransformedCardState extends State<TransformedCard> {
         return null;
     }
   }
-
 }

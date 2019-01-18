@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solitaire_flutter/card_column.dart';
 import 'package:solitaire_flutter/playing_card.dart';
 import 'package:solitaire_flutter/transformed_card.dart';
 
@@ -9,7 +10,16 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   // Stores the cards on the seven columns
-  List<PlayingCard> cardColumn1 = [];
+  List<PlayingCard> cardColumn1 = [
+    PlayingCard(
+        cardSuit: CardSuit.hearts, cardType: CardType.eight, faceUp: true),
+    PlayingCard(cardSuit: CardSuit.hearts, cardType: CardType.king),
+    PlayingCard(cardSuit: CardSuit.hearts, cardType: CardType.seven),
+    PlayingCard(cardSuit: CardSuit.diamonds, cardType: CardType.eight),
+    PlayingCard(cardSuit: CardSuit.spades, cardType: CardType.eight),
+    PlayingCard(
+        cardSuit: CardSuit.clubs, cardType: CardType.eight, faceUp: true),
+  ];
   List<PlayingCard> cardColumn2 = [];
   List<PlayingCard> cardColumn3 = [];
   List<PlayingCard> cardColumn4 = [];
@@ -30,19 +40,23 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green,
       appBar: AppBar(
         title: Text("Flutter Solitaire"),
         elevation: 0.0,
         backgroundColor: Colors.green,
       ),
-      body: Container(
-        child: TransformedCard(
-          playingCard: PlayingCard(
-            cardSuit: CardSuit.hearts,
-            cardType: CardType.seven,
-            faceUp: true,
+      body: Row(
+        children: <Widget>[
+          Expanded(
+            child: CardColumn(cards: [
+              PlayingCard(cardSuit: CardSuit.hearts, cardType: CardType.eight, faceUp: true),
+              PlayingCard(cardSuit: CardSuit.diamonds, cardType: CardType.eight, faceUp: true),
+              PlayingCard(cardSuit: CardSuit.hearts, cardType: CardType.king, faceUp: true),
+              PlayingCard(cardSuit: CardSuit.spades, cardType: CardType.four, faceUp: true)
+            ], onCardAdded: (card, index){}, columnIndex: 1),
           ),
-        ),
+        ],
       ),
     );
   }

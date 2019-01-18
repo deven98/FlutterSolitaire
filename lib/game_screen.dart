@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:solitaire_flutter/card_column.dart';
+import 'package:solitaire_flutter/empty_card.dart';
 import 'package:solitaire_flutter/playing_card.dart';
+import 'package:solitaire_flutter/transformed_card.dart';
 
 class GameScreen extends StatefulWidget {
   @override
@@ -56,24 +58,18 @@ class _GameScreenState extends State<GameScreen> {
       if (i == 0) {
         PlayingCard card = allCards[randomNumber];
         cardColumn1.add(
-          PlayingCard(
-            cardType: card.cardType,
-            cardSuit: card.cardSuit,
-            faceUp: true,
-            opened: true,
-          ),
+          card
+            ..opened = true
+            ..faceUp = true,
         );
         allCards.removeAt(randomNumber);
       } else if (i > 0 && i < 3) {
         if (i == 2) {
           PlayingCard card = allCards[randomNumber];
           cardColumn2.add(
-            PlayingCard(
-              cardType: card.cardType,
-              cardSuit: card.cardSuit,
-              opened: true,
-              faceUp: true,
-            ),
+            card
+              ..opened = true
+              ..faceUp = true,
           );
         } else {
           cardColumn2.add(allCards[randomNumber]);
@@ -83,12 +79,9 @@ class _GameScreenState extends State<GameScreen> {
         if (i == 5) {
           PlayingCard card = allCards[randomNumber];
           cardColumn3.add(
-            PlayingCard(
-              cardType: card.cardType,
-              cardSuit: card.cardSuit,
-              opened: true,
-              faceUp: true,
-            ),
+            card
+              ..opened = true
+              ..faceUp = true,
           );
         } else {
           cardColumn3.add(allCards[randomNumber]);
@@ -98,12 +91,9 @@ class _GameScreenState extends State<GameScreen> {
         if (i == 9) {
           PlayingCard card = allCards[randomNumber];
           cardColumn4.add(
-            PlayingCard(
-              cardType: card.cardType,
-              cardSuit: card.cardSuit,
-              opened: true,
-              faceUp: true,
-            ),
+            card
+              ..opened = true
+              ..faceUp = true,
           );
         } else {
           cardColumn4.add(allCards[randomNumber]);
@@ -113,12 +103,9 @@ class _GameScreenState extends State<GameScreen> {
         if (i == 14) {
           PlayingCard card = allCards[randomNumber];
           cardColumn5.add(
-            PlayingCard(
-              cardType: card.cardType,
-              cardSuit: card.cardSuit,
-              opened: true,
-              faceUp: true,
-            ),
+            card
+              ..opened = true
+              ..faceUp = true,
           );
         } else {
           cardColumn5.add(allCards[randomNumber]);
@@ -128,12 +115,9 @@ class _GameScreenState extends State<GameScreen> {
         if (i == 20) {
           PlayingCard card = allCards[randomNumber];
           cardColumn6.add(
-            PlayingCard(
-              cardType: card.cardType,
-              cardSuit: card.cardSuit,
-              opened: true,
-              faceUp: true,
-            ),
+            card
+              ..opened = true
+              ..faceUp = true,
           );
         } else {
           cardColumn6.add(allCards[randomNumber]);
@@ -143,12 +127,9 @@ class _GameScreenState extends State<GameScreen> {
         if (i == 27) {
           PlayingCard card = allCards[randomNumber];
           cardColumn7.add(
-            PlayingCard(
-              cardType: card.cardType,
-              cardSuit: card.cardSuit,
-              opened: true,
-              faceUp: true,
-            ),
+            card
+              ..opened = true
+              ..faceUp = true,
           );
         } else {
           cardColumn7.add(allCards[randomNumber]);
@@ -158,7 +139,11 @@ class _GameScreenState extends State<GameScreen> {
     }
 
     cardDeckClosed = allCards;
-    cardDeckOpened.add(cardDeckClosed.removeLast());
+    cardDeckOpened.add(
+      cardDeckClosed.removeLast()
+        ..opened = true
+        ..faceUp = true,
+    );
 
     setState(() {});
   }
@@ -174,6 +159,14 @@ class _GameScreenState extends State<GameScreen> {
       ),
       body: Column(
         children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildCardDeck(),
+              _buildFinalDecks(),
+            ],
+          ),
+          SizedBox(height: 16.0,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -283,6 +276,60 @@ class _GameScreenState extends State<GameScreen> {
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCardDeck() {
+    return Container(
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: TransformedCard(
+              playingCard: cardDeckClosed.last,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: TransformedCard(
+              playingCard: cardDeckOpened.last,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFinalDecks() {
+    return Container(
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: EmptyCard(
+              cardSuit: EmptyCardSuit.hearts,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: EmptyCard(
+              cardSuit: EmptyCardSuit.diamonds,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: EmptyCard(
+              cardSuit: EmptyCardSuit.spades,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: EmptyCard(
+              cardSuit: EmptyCardSuit.clubs,
+            ),
           ),
         ],
       ),

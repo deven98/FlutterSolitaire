@@ -1,6 +1,8 @@
 # solitaire_flutter
 
-A solitaire clone made in Flutter.
+A Solitaire clone made in Flutter.
+
+![alt text](https://github.com/deven98/FlutterSolitaire/blob/master/screenshot.png)
 
 ## Getting Started
 

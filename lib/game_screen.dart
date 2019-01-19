@@ -33,7 +33,6 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initialiseGame();
   }
@@ -240,11 +239,12 @@ class _GameScreenState extends State<GameScreen> {
                     attachedCards: [
                       cardDeckOpened.last,
                     ],
+                    columnIndex: 0,
                   ),
                 )
               : Container(
-            width: 40.0,
-          ),
+                  width: 40.0,
+                ),
         ],
       ),
     );
@@ -257,25 +257,61 @@ class _GameScreenState extends State<GameScreen> {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: EmptyCard(
-              cardSuit: EmptyCardSuit.hearts,
+              cardSuit: CardSuit.hearts,
+              cardsAdded: finalHeartsDeck,
+              onCardAdded: (cards, index) {
+                finalHeartsDeck.addAll(cards);
+                int length = _getListFromIndex(index).length;
+                _getListFromIndex(index)
+                    .removeRange(length - cards.length, length);
+                _refreshList(index);
+              },
+              columnIndex: 8,
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: EmptyCard(
-              cardSuit: EmptyCardSuit.diamonds,
+              cardSuit: CardSuit.diamonds,
+              cardsAdded: finalDiamondsDeck,
+              onCardAdded: (cards, index) {
+                finalDiamondsDeck.addAll(cards);
+                int length = _getListFromIndex(index).length;
+                _getListFromIndex(index)
+                    .removeRange(length - cards.length, length);
+                _refreshList(index);
+              },
+              columnIndex: 9,
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: EmptyCard(
-              cardSuit: EmptyCardSuit.spades,
+              cardSuit: CardSuit.spades,
+              cardsAdded: finalSpadesDeck,
+              onCardAdded: (cards, index) {
+                finalSpadesDeck.addAll(cards);
+                int length = _getListFromIndex(index).length;
+                _getListFromIndex(index)
+                    .removeRange(length - cards.length, length);
+                _refreshList(index);
+              },
+              columnIndex: 10,
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: EmptyCard(
-              cardSuit: EmptyCardSuit.clubs,
+              cardSuit: CardSuit.clubs,
+              cardsAdded: finalClubsDeck,
+              onCardAdded: (cards, index) {
+                finalClubsDeck.addAll(cards);
+                int length = _getListFromIndex(index).length;
+                _getListFromIndex(index)
+                    .removeRange(length - cards.length, length);
+                _refreshList(index);
+              },
+              columnIndex: 11,
             ),
           ),
         ],
@@ -415,6 +451,13 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _refreshList(int index) {
+    if (finalDiamondsDeck.length +
+            finalHeartsDeck.length +
+            finalClubsDeck.length +
+            finalSpadesDeck.length ==
+        52) {
+      _handleWin();
+    }
     setState(() {
       if (_getListFromIndex(index).length != 0) {
         _getListFromIndex(index)[_getListFromIndex(index).length - 1]
@@ -424,8 +467,31 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
+  void _handleWin() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Congratulations!"),
+          content: Text("You Win!"),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                _initialiseGame();
+                Navigator.pop(context);
+              },
+              child: Text("Play again"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   List<PlayingCard> _getListFromIndex(int index) {
     switch (index) {
+      case 0:
+        return cardDeckOpened;
       case 1:
         return cardColumn1;
       case 2:
@@ -440,6 +506,14 @@ class _GameScreenState extends State<GameScreen> {
         return cardColumn6;
       case 7:
         return cardColumn7;
+      case 8:
+        return finalHeartsDeck;
+      case 9:
+        return finalDiamondsDeck;
+      case 10:
+        return finalSpadesDeck;
+      case 11:
+        return finalClubsDeck;
       default:
         return null;
     }

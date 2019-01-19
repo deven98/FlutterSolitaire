@@ -55,9 +55,7 @@ class _TransformedCardState extends State<TransformedCard> {
               columnIndex: 1,
               onCardsAdded: (card, position) {},
             ),
-            childWhenDragging: Container(
-              width: 40.0,
-            ),
+            childWhenDragging: _buildFaceUpCard(),
             data: {
               "cards": widget.attachedCards,
               "fromIndex": widget.columnIndex,

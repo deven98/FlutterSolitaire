@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:solitaire_flutter/card_column.dart';
 import 'package:solitaire_flutter/playing_card.dart';
 
+// TransformedCard makes the card draggable and translates it according to
+// position in the stack.
 class TransformedCard extends StatefulWidget {
   final PlayingCard playingCard;
   final double transformDistance;
@@ -74,24 +76,50 @@ class _TransformedCardState extends State<TransformedCard> {
         ),
         height: 60.0,
         width: 40,
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Center(
-                child: Text(
-                  _cardTypeToString(),
-                  style: TextStyle(
-                    fontSize: 16.0,
+        child: Stack(
+          children: <Widget>[
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Center(
+                    child: Text(
+                      _cardTypeToString(),
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
                   ),
+                  Container(
+                    height: 20.0,
+                    child: _suitToImage(),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      _cardTypeToString(),
+                      style: TextStyle(
+                        fontSize: 10.0,
+                      ),
+                    ),
+                    Container(
+                      height: 10.0,
+                      child: _suitToImage(),
+                    )
+                  ],
                 ),
               ),
-              Container(
-                height: 20.0,
-                child: _suitToImage(),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

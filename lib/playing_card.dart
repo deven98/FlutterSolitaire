@@ -28,6 +28,7 @@ enum CardColor {
   black,
 }
 
+// Simple playing card model
 class PlayingCard {
   CardSuit cardSuit;
   CardType cardType;

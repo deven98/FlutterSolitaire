@@ -188,6 +188,7 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
+  // Build the deck of cards left after building card columns
   Widget _buildCardDeck() {
     return Container(
       child: Row(
@@ -250,13 +251,14 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
+  // Build the final decks of cards
   Widget _buildFinalDecks() {
     return Container(
       child: Row(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(4.0),
-            child: EmptyCard(
+            child: EmptyCardDeck(
               cardSuit: CardSuit.hearts,
               cardsAdded: finalHeartsDeck,
               onCardAdded: (cards, index) {
@@ -271,7 +273,7 @@ class _GameScreenState extends State<GameScreen> {
           ),
           Padding(
             padding: const EdgeInsets.all(4.0),
-            child: EmptyCard(
+            child: EmptyCardDeck(
               cardSuit: CardSuit.diamonds,
               cardsAdded: finalDiamondsDeck,
               onCardAdded: (cards, index) {
@@ -286,7 +288,7 @@ class _GameScreenState extends State<GameScreen> {
           ),
           Padding(
             padding: const EdgeInsets.all(4.0),
-            child: EmptyCard(
+            child: EmptyCardDeck(
               cardSuit: CardSuit.spades,
               cardsAdded: finalSpadesDeck,
               onCardAdded: (cards, index) {
@@ -301,7 +303,7 @@ class _GameScreenState extends State<GameScreen> {
           ),
           Padding(
             padding: const EdgeInsets.all(4.0),
-            child: EmptyCard(
+            child: EmptyCardDeck(
               cardSuit: CardSuit.clubs,
               cardsAdded: finalClubsDeck,
               onCardAdded: (cards, index) {
@@ -319,6 +321,7 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
+  // Initialise a new game
   void _initialiseGame() {
     cardColumn1 = [];
     cardColumn2 = [];
@@ -467,6 +470,7 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
+  // Handle a win condition
   void _handleWin() {
     showDialog(
       context: context,

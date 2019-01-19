@@ -3,13 +3,14 @@ import 'package:solitaire_flutter/card_column.dart';
 import 'package:solitaire_flutter/playing_card.dart';
 import 'package:solitaire_flutter/transformed_card.dart';
 
-class EmptyCard extends StatefulWidget {
+// The deck of cards which accept the final cards (Ace to King)
+class EmptyCardDeck extends StatefulWidget {
   final CardSuit cardSuit;
   final List<PlayingCard> cardsAdded;
   final CardAcceptCallback onCardAdded;
   final int columnIndex;
 
-  EmptyCard({
+  EmptyCardDeck({
     @required this.cardSuit,
     @required this.cardsAdded,
     @required this.onCardAdded,
@@ -17,10 +18,10 @@ class EmptyCard extends StatefulWidget {
   });
 
   @override
-  _EmptyCardState createState() => _EmptyCardState();
+  _EmptyCardDeckState createState() => _EmptyCardDeckState();
 }
 
-class _EmptyCardState extends State<EmptyCard> {
+class _EmptyCardDeckState extends State<EmptyCardDeck> {
   @override
   Widget build(BuildContext context) {
     return DragTarget<Map>(

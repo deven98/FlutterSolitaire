@@ -4,9 +4,16 @@ import 'package:solitaire_flutter/transformed_card.dart';
 
 typedef Null CardAcceptCallback(List<PlayingCard> card, int fromIndex);
 
+// This is a stack of overlayed cards (implemented using a stack)
 class CardColumn extends StatefulWidget {
+
+  // List of cards in the stack
   final List<PlayingCard> cards;
+
+  // Callback when card is added to the stack
   final CardAcceptCallback onCardsAdded;
+
+  // The index of the list in the game
   final int columnIndex;
 
   CardColumn(

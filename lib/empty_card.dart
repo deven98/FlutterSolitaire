@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:solitaire_flutter/card_column.dart';
-import 'package:solitaire_flutter/playing_card.dart';
-import 'package:solitaire_flutter/transformed_card.dart';
+
+import 'card_column.dart';
+import 'playing_card.dart';
+import 'transformed_card.dart';
 
 // The deck of cards which accept the final cards (Ace to King)
 class EmptyCardDeck extends StatefulWidget {
@@ -11,10 +12,10 @@ class EmptyCardDeck extends StatefulWidget {
   final int columnIndex;
 
   EmptyCardDeck({
-    @required this.cardSuit,
-    @required this.cardsAdded,
-    @required this.onCardAdded,
-    this.columnIndex,
+    required this.cardSuit,
+    required this.cardsAdded,
+    required this.onCardAdded,
+    required this.columnIndex,
   });
 
   @override
@@ -60,7 +61,7 @@ class _EmptyCardDeckState extends State<EmptyCardDeck> {
               );
       },
       onWillAccept: (value) {
-        PlayingCard cardAdded = value["cards"].last;
+        PlayingCard cardAdded = value!["cards"].last;
 
         if (cardAdded.cardSuit == widget.cardSuit) {
           if (CardType.values.indexOf(cardAdded.cardType) ==
@@ -88,10 +89,8 @@ class _EmptyCardDeckState extends State<EmptyCardDeck> {
         return Image.asset('images/diamonds.png');
       case CardSuit.clubs:
         return Image.asset('images/clubs.png');
-      case CardSuit.spades:
-        return Image.asset('images/spades.png');
       default:
-        return null;
+        return Image.asset('images/spades.png');
     }
   }
 }

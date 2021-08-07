@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:solitaire_flutter/card_column.dart';
-import 'package:solitaire_flutter/empty_card.dart';
-import 'package:solitaire_flutter/playing_card.dart';
-import 'package:solitaire_flutter/transformed_card.dart';
+
+import 'card_column.dart';
+import 'empty_card.dart';
+import 'playing_card.dart';
+import 'transformed_card.dart';
 
 class GameScreen extends StatefulWidget {
   @override
@@ -56,134 +57,159 @@ class _GameScreenState extends State<GameScreen> {
             ),
             splashColor: Colors.white,
             onTap: () {
-              _initialiseGame();
+              _handleStartNewGame();
             },
           )
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              _buildCardDeck(),
-              _buildFinalDecks(),
-            ],
-          ),
-          SizedBox(
-            height: 16.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Expanded(
-                child: CardColumn(
-                  cards: cardColumn1,
-                  onCardsAdded: (cards, index) {
-                    setState(() {
-                      cardColumn1.addAll(cards);
-                      int length = _getListFromIndex(index).length;
-                      _getListFromIndex(index)
-                          .removeRange(length - cards.length, length);
-                      _refreshList(index);
-                    });
-                  },
-                  columnIndex: 1,
+      body: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _buildCardDeck(),
+                _buildFinalDecks(),
+              ],
+            ),
+            SizedBox(
+              height: 16.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: CardColumn(
+                    cards: cardColumn1,
+                    onCardsAdded: (cards, index) {
+                      setState(() {
+                        cardColumn1.addAll(cards);
+                        int length = _getListFromIndex(index).length;
+                        _getListFromIndex(index)
+                            .removeRange(length - cards.length, length);
+                        _refreshList(index);
+                      });
+                    },
+                    onCardDoubleTap: (cardClicked) {
+                      _onCardDoubleTap(cardClicked, 1);
+                    },
+                    columnIndex: 1,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: CardColumn(
-                  cards: cardColumn2,
-                  onCardsAdded: (cards, index) {
-                    setState(() {
-                      cardColumn2.addAll(cards);
-                      int length = _getListFromIndex(index).length;
-                      _getListFromIndex(index)
-                          .removeRange(length - cards.length, length);
-                      _refreshList(index);
-                    });
-                  },
-                  columnIndex: 2,
+                Expanded(
+                  child: CardColumn(
+                    cards: cardColumn2,
+                    onCardsAdded: (cards, index) {
+                      setState(() {
+                        cardColumn2.addAll(cards);
+                        int length = _getListFromIndex(index).length;
+                        _getListFromIndex(index)
+                            .removeRange(length - cards.length, length);
+                        _refreshList(index);
+                      });
+                    },
+                    onCardDoubleTap: (cardClicked) {
+                      _onCardDoubleTap(cardClicked, 2);
+                    },
+                    columnIndex: 2,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: CardColumn(
-                  cards: cardColumn3,
-                  onCardsAdded: (cards, index) {
-                    setState(() {
-                      cardColumn3.addAll(cards);
-                      int length = _getListFromIndex(index).length;
-                      _getListFromIndex(index)
-                          .removeRange(length - cards.length, length);
-                      _refreshList(index);
-                    });
-                  },
-                  columnIndex: 3,
+                Expanded(
+                  child: CardColumn(
+                    cards: cardColumn3,
+                    onCardsAdded: (cards, index) {
+                      setState(() {
+                        cardColumn3.addAll(cards);
+                        int length = _getListFromIndex(index).length;
+                        _getListFromIndex(index)
+                            .removeRange(length - cards.length, length);
+                        _refreshList(index);
+                      });
+                    },
+                    onCardDoubleTap: (cardClicked) {
+                      _onCardDoubleTap(cardClicked, 3);
+                    },
+                    columnIndex: 3,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: CardColumn(
-                  cards: cardColumn4,
-                  onCardsAdded: (cards, index) {
-                    setState(() {
-                      cardColumn4.addAll(cards);
-                      int length = _getListFromIndex(index).length;
-                      _getListFromIndex(index)
-                          .removeRange(length - cards.length, length);
-                      _refreshList(index);
-                    });
-                  },
-                  columnIndex: 4,
+                Expanded(
+                  child: CardColumn(
+                    cards: cardColumn4,
+                    onCardsAdded: (cards, index) {
+                      setState(() {
+                        cardColumn4.addAll(cards);
+                        int length = _getListFromIndex(index).length;
+                        _getListFromIndex(index)
+                            .removeRange(length - cards.length, length);
+                        _refreshList(index);
+                      });
+                    },
+                    onCardDoubleTap: (cardClicked) {
+                      _onCardDoubleTap(cardClicked, 4);
+                    },
+                    columnIndex: 4,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: CardColumn(
-                  cards: cardColumn5,
-                  onCardsAdded: (cards, index) {
-                    setState(() {
-                      cardColumn5.addAll(cards);
-                      int length = _getListFromIndex(index).length;
-                      _getListFromIndex(index)
-                          .removeRange(length - cards.length, length);
-                      _refreshList(index);
-                    });
-                  },
-                  columnIndex: 5,
+                Expanded(
+                  child: CardColumn(
+                    cards: cardColumn5,
+                    onCardsAdded: (cards, index) {
+                      setState(() {
+                        cardColumn5.addAll(cards);
+                        int length = _getListFromIndex(index).length;
+                        _getListFromIndex(index)
+                            .removeRange(length - cards.length, length);
+                        _refreshList(index);
+                      });
+                    },
+                    onCardDoubleTap: (cardClicked) {
+                      _onCardDoubleTap(cardClicked, 5);
+                    },
+                    columnIndex: 5,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: CardColumn(
-                  cards: cardColumn6,
-                  onCardsAdded: (cards, index) {
-                    setState(() {
-                      cardColumn6.addAll(cards);
-                      int length = _getListFromIndex(index).length;
-                      _getListFromIndex(index)
-                          .removeRange(length - cards.length, length);
-                      _refreshList(index);
-                    });
-                  },
-                  columnIndex: 6,
+                Expanded(
+                  child: CardColumn(
+                    cards: cardColumn6,
+                    onCardsAdded: (cards, index) {
+                      setState(() {
+                        cardColumn6.addAll(cards);
+                        int length = _getListFromIndex(index).length;
+                        _getListFromIndex(index)
+                            .removeRange(length - cards.length, length);
+                        _refreshList(index);
+                      });
+                    },
+                    onCardDoubleTap: (cardClicked) {
+                      _onCardDoubleTap(cardClicked, 6);
+                    },
+                    columnIndex: 6,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: CardColumn(
-                  cards: cardColumn7,
-                  onCardsAdded: (cards, index) {
-                    setState(() {
-                      cardColumn7.addAll(cards);
-                      int length = _getListFromIndex(index).length;
-                      _getListFromIndex(index)
-                          .removeRange(length - cards.length, length);
-                      _refreshList(index);
-                    });
-                  },
-                  columnIndex: 7,
+                Expanded(
+                  child: CardColumn(
+                    cards: cardColumn7,
+                    onCardsAdded: (cards, index) {
+                      setState(() {
+                        cardColumn7.addAll(cards);
+                        int length = _getListFromIndex(index).length;
+                        _getListFromIndex(index)
+                            .removeRange(length - cards.length, length);
+                        _refreshList(index);
+                      });
+                    },
+                    onCardDoubleTap: (cardClicked) {
+                      _onCardDoubleTap(cardClicked, 7);
+                    },
+                    columnIndex: 7,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -199,6 +225,7 @@ class _GameScreenState extends State<GameScreen> {
                     padding: const EdgeInsets.all(4.0),
                     child: TransformedCard(
                       playingCard: cardDeckClosed.last,
+                      attachedCards: [],
                     ),
                   )
                 : Opacity(
@@ -210,6 +237,7 @@ class _GameScreenState extends State<GameScreen> {
                           cardSuit: CardSuit.diamonds,
                           cardType: CardType.five,
                         ),
+                        attachedCards: [],
                       ),
                     ),
                   ),
@@ -241,10 +269,24 @@ class _GameScreenState extends State<GameScreen> {
                       cardDeckOpened.last,
                     ],
                     columnIndex: 0,
+                    onCardDoubleTap: (cardClicked) {
+                      _onCardDoubleTap(cardClicked, 0);
+                    },
                   ),
                 )
-              : Container(
-                  width: 40.0,
+              : Opacity(
+                  opacity: 0.4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black12,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      height: 60.0,
+                      width: 40.0,
+                    ),
+                  ),
                 ),
         ],
       ),
@@ -356,90 +398,84 @@ class _GameScreenState extends State<GameScreen> {
 
     Random random = Random();
 
+    // Shuffle cards randomly
+    for (int i = 0; i < 20000; i++) {
+      int randomNumber = random.nextInt(allCards.length);
+      PlayingCard card = allCards.removeAt(randomNumber);
+      allCards.add(card);
+    }
+
     // Add cards to columns and remaining to deck
     for (int i = 0; i < 28; i++) {
       int randomNumber = random.nextInt(allCards.length);
+      PlayingCard card = allCards.removeAt(randomNumber);
 
       if (i == 0) {
-        PlayingCard card = allCards[randomNumber];
         cardColumn1.add(
           card
             ..opened = true
             ..faceUp = true,
         );
-        allCards.removeAt(randomNumber);
       } else if (i > 0 && i < 3) {
         if (i == 2) {
-          PlayingCard card = allCards[randomNumber];
           cardColumn2.add(
             card
               ..opened = true
               ..faceUp = true,
           );
         } else {
-          cardColumn2.add(allCards[randomNumber]);
+          cardColumn2.add(card);
         }
-        allCards.removeAt(randomNumber);
       } else if (i > 2 && i < 6) {
         if (i == 5) {
-          PlayingCard card = allCards[randomNumber];
           cardColumn3.add(
             card
               ..opened = true
               ..faceUp = true,
           );
         } else {
-          cardColumn3.add(allCards[randomNumber]);
+          cardColumn3.add(card);
         }
-        allCards.removeAt(randomNumber);
       } else if (i > 5 && i < 10) {
         if (i == 9) {
-          PlayingCard card = allCards[randomNumber];
           cardColumn4.add(
             card
               ..opened = true
               ..faceUp = true,
           );
         } else {
-          cardColumn4.add(allCards[randomNumber]);
+          cardColumn4.add(card);
         }
-        allCards.removeAt(randomNumber);
       } else if (i > 9 && i < 15) {
         if (i == 14) {
-          PlayingCard card = allCards[randomNumber];
           cardColumn5.add(
             card
               ..opened = true
               ..faceUp = true,
           );
         } else {
-          cardColumn5.add(allCards[randomNumber]);
+          cardColumn5.add(card);
         }
-        allCards.removeAt(randomNumber);
       } else if (i > 14 && i < 21) {
         if (i == 20) {
-          PlayingCard card = allCards[randomNumber];
           cardColumn6.add(
             card
               ..opened = true
               ..faceUp = true,
           );
         } else {
-          cardColumn6.add(allCards[randomNumber]);
+          cardColumn6.add(card);
         }
-        allCards.removeAt(randomNumber);
       } else {
         if (i == 27) {
-          PlayingCard card = allCards[randomNumber];
           cardColumn7.add(
             card
               ..opened = true
               ..faceUp = true,
           );
         } else {
-          cardColumn7.add(allCards[randomNumber]);
+          cardColumn7.add(card);
         }
-        allCards.removeAt(randomNumber);
       }
     }
 
@@ -459,7 +495,7 @@ class _GameScreenState extends State<GameScreen> {
             finalClubsDeck.length +
             finalSpadesDeck.length ==
         52) {
-      _handleWin();
+      _handleGameWin();
     }
     setState(() {
       if (_getListFromIndex(index).length != 0) {
@@ -470,8 +506,35 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
+  // Handle a start new game condition
+  void _handleStartNewGame() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Start new game?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                _initialiseGame();
+                Navigator.pop(context);
+              },
+              child: Text("Yes"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancel"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   // Handle a win condition
-  void _handleWin() {
+  void _handleGameWin() {
     showDialog(
       context: context,
       builder: (context) {
@@ -479,7 +542,7 @@ class _GameScreenState extends State<GameScreen> {
           title: Text("Congratulations!"),
           content: Text("You Win!"),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () {
                 _initialiseGame();
                 Navigator.pop(context);
@@ -516,10 +579,34 @@ class _GameScreenState extends State<GameScreen> {
         return finalDiamondsDeck;
       case 10:
         return finalSpadesDeck;
-      case 11:
-        return finalClubsDeck;
       default:
-        return null;
+        return finalClubsDeck;
+    }
+  }
+
+  void _onCardDoubleTap(PlayingCard cardClicked, int index) {
+    List<PlayingCard> finalDeck;
+    switch (cardClicked.cardSuit) {
+      case CardSuit.hearts:
+        finalDeck = finalHeartsDeck;
+        break;
+      case CardSuit.diamonds:
+        finalDeck = finalDiamondsDeck;
+        break;
+      case CardSuit.spades:
+        finalDeck = finalSpadesDeck;
+        break;
+      default:
+        finalDeck = finalClubsDeck;
+        break;
+    }
+
+    if (CardType.values.indexOf(cardClicked.cardType) == finalDeck.length &&
+        cardClicked.faceUp && cardClicked.opened) {
+      finalDeck.add(cardClicked);
+      int length = _getListFromIndex(index).length;
+      _getListFromIndex(index).removeRange(length - 1, length);
+      _refreshList(index);
     }
   }
 }
